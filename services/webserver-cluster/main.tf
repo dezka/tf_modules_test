@@ -49,15 +49,14 @@ resource "aws_security_group" "instance" {
 data "aws_availability_zones" "all" {}
 
 resource "aws_autoscaling_group" "webclus_asg" {
-    launch_configuration = "${aws_launch_configuration.webclus.id}"
-    availability_zones   = ["${data.aws_availability_zones.all.names}"]
-
-    load_balancers    = ["${aws_elb.elb.name}"]
+	launch_configuration = "${aws_launch_configuration.webclus.id}"
+	availability_zones   = ["${data.aws_availability_zones.all.names}"]
+	
+	load_balancers    = ["${aws_elb.elb.name}"]
 	health_check_type = "ELB"
-
-	min_size = "${var.min_size}"
-	max_size = "${var.max_size}"
-
+	min_size          = "${var.min_size}"
+	max_size          = "${var.max_size}"
+	
 	tag {
 		key                 = "Name"
 		value               = "${var.cluster_name}"
@@ -68,7 +67,7 @@ resource "aws_autoscaling_group" "webclus_asg" {
 resource "aws_elb" "elb" {
 	name               = "${var.cluster_name}-elb"
 	availability_zones = ["${data.aws_availability_zones.all.names}"]
-    security_groups    = ["${aws_security_group.elb.id}"]
+	security_groups    = ["${aws_security_group.elb.id}"]
 
 	listener {
 		lb_port           = 80
