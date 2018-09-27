@@ -1,3 +1,7 @@
+variable "enable_new_user_data" {
+	description = "If set to true, uses user-data-new.sh"
+}
+
 variable "enable_autoscaling" {
 	description = "If set to true, enable auto scaling."
 }
