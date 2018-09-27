@@ -1,3 +1,7 @@
+variable "enable_autoscaling" {
+	description = "If set to true, enable auto scaling."
+}
+
 variable "AWS_REGION" {
   default = "us-east-1"
 }
