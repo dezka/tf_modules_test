@@ -5,8 +5,6 @@ data "terraform_remote_state" "db" {
 		bucket     = "${var.db_remote_state_bucket}"
 		key        = "${var.db_remote_state_key}"
 		region     = "us-east-1"
-		access_key = "${var.AWS_ACCESS_KEY}"
-		secret_key = "${var.AWS_SECRET_KEY}"
 	}
 }
 
