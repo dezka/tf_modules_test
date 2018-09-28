@@ -1,5 +1,9 @@
-variable "enable_new_user_data" {
-	description = "If set to true, uses user-data-new.sh"
+variable "ami" {
+  description = "The AMI to use in the region."
+}
+
+variable "server_text" {
+  description = "Text to be displayed on the web page."
 }
 
 variable "enable_autoscaling" {
