@@ -48,6 +48,8 @@ resource "aws_security_group" "instance" {
 data "aws_availability_zones" "all" {}
 
 resource "aws_autoscaling_group" "webclus_asg" {
+	name = "${var.cluster_name}-${aws_launch_configuration.webclus.name}"
+
 	launch_configuration = "${aws_launch_configuration.webclus.id}"
 	availability_zones   = ["${data.aws_availability_zones.all.names}"]
 	
@@ -55,6 +57,7 @@ resource "aws_autoscaling_group" "webclus_asg" {
 	health_check_type = "ELB"
 	min_size          = "${var.min_size}"
 	max_size          = "${var.max_size}"
+	min_elb_capacity  = "${var.min_size}"
 
 	lifecycle {
 		create_before_destroy = true
