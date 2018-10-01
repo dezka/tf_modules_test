@@ -55,6 +55,10 @@ resource "aws_autoscaling_group" "webclus_asg" {
 	health_check_type = "ELB"
 	min_size          = "${var.min_size}"
 	max_size          = "${var.max_size}"
+
+	lifecycle {
+		create_before_destroy = true
+	}
 	
 	tag {
 		key                 = "Name"
@@ -82,6 +86,10 @@ resource "aws_elb" "elb" {
 		interval            = 30
 		target              = "HTTP:${var.server_port}/"
 	}
+
+	lifecycle {
+		create_before_destroy = true
+	}
 }
 
 resource "aws_security_group" "elb" {
@@ -102,6 +110,10 @@ resource "aws_security_group_rule" "allow_all_outbound" {
 	type              = "egress"
 	security_group_id = "${aws_security_group.elb.id}"
 
+	lifecycle {
+		create_before_destroy = true
+	}
+
 	from_port    = 0
 	to_port      = 0
 	protocol     = "-1"
@@ -117,6 +129,10 @@ resource "aws_autoscaling_schedule" "scale_out_during_business_hours" {
 	desired_capacity       = 2
 	recurrence             = "0 9 * * *"
 	autoscaling_group_name = "${aws_autoscaling_group.webclus_asg.name}"
+
+	lifecycle {
+		create_before_destroy = true
+	}
 }
 
 resource "aws_autoscaling_schedule" "scale_in_at_night" {
@@ -128,6 +144,10 @@ resource "aws_autoscaling_schedule" "scale_in_at_night" {
 	desired_capacity       = 1
 	recurrence             = "0 17 * * *"
 	autoscaling_group_name = "${aws_autoscaling_group.webclus_asg.name}"
+
+	lifecycle {
+		create_before_destroy = true
+	}
 }
 
 resource "aws_cloudwatch_metric_alarm" "high_cpu_utilization" {
